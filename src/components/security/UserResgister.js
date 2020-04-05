@@ -11,6 +11,7 @@ import LockOutLineIcon from "@material-ui/icons/LockOutlined";
 import { compose } from 'recompose';
 import { consumerFirebase } from '../../server';
 
+
 const style = {
   paper: {
     marginTop: 8,
@@ -32,6 +33,13 @@ const style = {
   }
 };
 
+const initialUser = {
+  name: '',
+  lastname: '',
+  email: '',
+  password: ''
+};
+
 class UserResgister extends Component {
   state = {
     firebase: null,
@@ -49,7 +57,7 @@ class UserResgister extends Component {
     }
     return {
       firebase: nextProps.firebase
-    }
+    };
   }
 
   onHandleWrite = (e) => {
@@ -63,6 +71,19 @@ class UserResgister extends Component {
   onHandleSubmit = (e) => {
       e.preventDefault();
       console.log("Imprimir objeto usuario del state", this.state.user);
+      const { user, firebase } = this.state;
+
+      firebase.db
+      .collection('Users')
+      .add(user)
+      .then(userAfter => {
+        console.log('Insercion correcta! ', userAfter);
+        this.setState({
+          user: initialUser
+        });
+      }).catch(error => {
+        console.log('Error ', error);
+      });
   }
 
   render() {
