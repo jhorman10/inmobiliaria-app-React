@@ -1,51 +1,51 @@
-import React, { Component } from 'react'
-import { Toolbar, Typography, Button, IconButton } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import React, { Component } from "react";
+import { Toolbar, Typography, Button, IconButton } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
-    sectionDesktop: {
-        display: "none",
-        [theme.breakpoints.up("md")]: {
-            display: "flex"
-        }
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
     },
-    sectionMobile:{
-        display: "flex",
-        [theme.breakpoints.up("md")]: {
-            display: "none"
-        }
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
-    grow: {
-        flexGrow: 1
-    }
+  },
+  grow: {
+    flexGrow: 1,
+  },
 });
 
 class BarSesion extends Component {
-    render() {
-        const { classes } = this.props;
+  render() {
+    const { classes } = this.props;
 
-        return (
-            <div>
-                <Toolbar>
-                    <IconButton color="inherit">
-                        <i className="material-icons">menu</i>
-                    </IconButton>
-                    <Typography variant="h6">
-                        HOME
-                    </Typography>
-                    <div className={ classes.grow }/>
-                    <div className={ classes.sectionDesktop }>
-                        <Button variant="contained" color="inherit">Login</Button>
-                    </div>
-                    <div className={ classes.sectionMobile }>
-                        <IconButton color="inherit">
-                            <i className="material-icons">more_vert</i>
-                        </IconButton>
-                    </div>
-                </Toolbar>
-            </div>
-        )
-    }
+    return (
+      <div>
+        <Toolbar>
+          <IconButton color="inherit">
+            <i className="material-icons">menu</i>
+          </IconButton>
+          <Typography variant="h6">HOME</Typography>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <Button variant="contained" color="inherit">
+              Login
+            </Button>
+          </div>
+          <div className={classes.sectionMobile}>
+            <IconButton color="inherit">
+              <i className="material-icons">more_vert</i>
+            </IconButton>
+          </div>
+        </Toolbar>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(BarSesion);
