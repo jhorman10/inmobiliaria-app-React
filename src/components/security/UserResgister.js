@@ -74,34 +74,29 @@ class UserResgister extends Component {
     const { email, password, name, lastname } = user;
 
     firebase.auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(auth => {
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        const userDB = {
+          userId: auth.user.uid,
+          email,
+          name,
+          lastname,
+        };
 
-      const userDB = {
-        userId : auth.user.uid,
-        email,
-        name,
-        lastname
-      };
-
-      firebase.db
-        .collection("Users")
-        .add(userDB)
-        .then((userAfter) => {
-          console.log("Insercion correcta! ", userAfter);
-          this.setState({
-            user: initialUser,
+        firebase.db
+          .collection("Users")
+          .add(userDB)
+          .then((userAfter) => {
+            console.log("Insercion correcta! ", userAfter);
+            this.props.history.push("/");
+          })
+          .catch((error) => {
+            console.log("Error ", error);
           });
-        })
-        .catch((error) => {
-          console.log("Error ", error);
-        });
-
-    })
-    .catch((error) => {
-          console.log("Error ", error);
-    });
-
+      })
+      .catch((error) => {
+        console.log("Error ", error);
+      });
   };
 
   render() {
