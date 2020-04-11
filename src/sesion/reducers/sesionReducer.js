@@ -1,6 +1,16 @@
-import { Switch } from "react-router-dom";
+export const initialState = {
+  user: {
+    name: "",
+    lastname: "",
+    email: "",
+    phoneNumber: "",
+    id: "",
+    picture: ""
+  },
+  isAuthenticated: false
+}
 
-const sesionReducer = (state, action) => {
+const sesionReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SESION_INIT":
       return {
@@ -18,10 +28,11 @@ const sesionReducer = (state, action) => {
     case "SESION_END":
       return {
         ...state,
-        user: action.sesion,
+        user: action.newUser,
         isAuthenticated: action.isAuthenticated,
       };
     default:
       return state;
   }
-};
+}
+export default sesionReducer;
