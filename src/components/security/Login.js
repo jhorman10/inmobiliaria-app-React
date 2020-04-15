@@ -9,6 +9,9 @@ import {
 import LockOutLineIcon from "@material-ui/icons/LockOutlined";
 import { compose } from "recompose";
 import { consumerFirebase } from "../../server";
+import { sesionInit } from "../../sesion/actions/sesionAction";
+import { StateContext } from "../../sesion/store";
+import { snackbarMessage } from "../../sesion/actions/snackbarAction";
 
 const style = {
   paper: {
@@ -28,6 +31,8 @@ const style = {
 };
 
 class Login extends Component {
+  static contentType = StateContext;
+
   state = {
     firebase: null,
     userState: {
@@ -53,18 +58,20 @@ class Login extends Component {
     });
   };
 
-  login = (e) => {
+  login = async (e) => {
     e.preventDefault();
+    const [{ sesion }, dispatch] = this.context;
     const { firebase, userState } = this.state;
     const { email, password } = userState;
-    firebase.auth
-      .signInWithEmailAndPassword(email, password)
-      .then((auth) => {
-        this.props.history.push("/");
-      })
-      .catch((error) => {
-        console.log(error);
+    let callback = await sesionInit(dispatch, firebase, email, password);
+    if (callback.status) {
+      this.props.history.push("/");
+    } else {
+      snackbarMessage(dispatch, {
+        open: true,
+        message: callback.message.message,
       });
+    }
   };
 
   render() {

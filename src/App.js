@@ -6,13 +6,17 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "./theme/theme";
 import { Grid } from "@material-ui/core";
+import { Snackbar } from "@material-ui/core";
 import UserRegister from "./components/security/UserResgister";
 import Login from "./components/security/Login";
 import { FirebaseContext } from "./server";
+import { useStateValue } from "./sesion/store";
 
 function App(props) {
   let firebase = React.useContext(FirebaseContext);
   const [initAuth, setupFirebaseInitil] = useState(false);
+
+  const [{ openSnackbar }, dispatch] = useStateValue();
 
   useEffect(() => {
     firebase.isInit().then((val) => {
@@ -21,19 +25,43 @@ function App(props) {
   });
 
   return initAuth !== false ? (
-    <Router>
-      <MuiThemeProvider theme={theme}>
-        <AppNavBar />
+    <React.Fragment>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={openSnackbar ? openSnackbar.open : false}
+        autoHideDuration={3000}
+        ContentProps={{
+          "aria-describedby": "message-id",
+        }}
+        message={
+          <span id="message-id">
+            {openSnackbar ? openSnackbar.message : ""}
+          </span>
+        }
+        onClose={() =>
+          dispatch({
+            type: "OPEN_SNACKBAR",
+            openMessage: {
+              open: false,
+              message: "",
+            },
+          })
+        }
+      ></Snackbar>
+      <Router>
+        <MuiThemeProvider theme={theme}>
+          <AppNavBar />
 
-        <Grid container>
-          <Switch>
-            <Route path="/auth/UserRegister" exact component={UserRegister} />
-            <Route path="/" exact component={ListaInmuebles} />
-            <Route path="/auth/Login" exact component={Login} />
-          </Switch>
-        </Grid>
-      </MuiThemeProvider>
-    </Router>
+          <Grid container>
+            <Switch>
+              <Route path="/auth/UserRegister" exact component={UserRegister} />
+              <Route path="/" exact component={ListaInmuebles} />
+              <Route path="/auth/Login" exact component={Login} />
+            </Switch>
+          </Grid>
+        </MuiThemeProvider>
+      </Router>
+    </React.Fragment>
   ) : null;
 }
 export default App;

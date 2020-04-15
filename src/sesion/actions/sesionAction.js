@@ -14,11 +14,16 @@ export const sesionInit = (dispatch, firebase, email, password) => {
               sesion: userDB,
               isAuthenticated: true,
             });
-            resolve();
+            resolve({
+              status: true,
+            });
           });
       })
       .catch((error) => {
-        console.log("Error: ", error);
+        resolve({
+          status: false,
+          message: error,
+        });
       });
   });
 };
@@ -59,23 +64,25 @@ export const createUser = (dispatch, firebase, user) => {
 
 export const endSesion = (dispatch, firebase) => {
   return new Promise((resolve, reject) => {
-    firebase.auth.signOut().then((leave) => {
-      dispatch({
-        type: "SESION_END",
-        newUser: {
-          name: "",
-          lastname: "",
-          email: "",
-          picture: "",
-          id: "",
-          phoneNumber: "",
-        },
-        isAuthenticated: false,
-      });
-      resolve();
-    })
-    .catch((error) => {
+    firebase.auth
+      .signOut()
+      .then((leave) => {
+        dispatch({
+          type: "SESION_END",
+          newUser: {
+            name: "",
+            lastname: "",
+            email: "",
+            picture: "",
+            id: "",
+            phoneNumber: "",
+          },
+          isAuthenticated: false,
+        });
+        resolve();
+      })
+      .catch((error) => {
         console.log("Error: ", error);
-    });
+      });
   });
 };
