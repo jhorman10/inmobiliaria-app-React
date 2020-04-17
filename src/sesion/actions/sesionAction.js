@@ -53,10 +53,15 @@ export const createUser = (dispatch, firebase, user) => {
               sesion: user,
               isAuthenticated: true,
             });
-            resolve();
+            resolve({
+              status: true,
+            });
           })
           .catch((error) => {
-            console.log("Error: ", error);
+            resolve({
+              status: false,
+              message: error,
+            });
           });
       });
   });

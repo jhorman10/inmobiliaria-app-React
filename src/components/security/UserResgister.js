@@ -10,6 +10,9 @@ import {
 import LockOutLineIcon from "@material-ui/icons/LockOutlined";
 import { compose } from "recompose";
 import { consumerFirebase } from "../../server";
+import { createUser } from "../../sesion/actions/sesionAction";
+import { snackbarMessage } from "../../sesion/actions/snackbarAction";
+import { StateContext } from "../../sesion/store";
 
 const style = {
   paper: {
@@ -40,6 +43,8 @@ const initialUser = {
 };
 
 class UserResgister extends Component {
+  static contextType = StateContext;
+
   state = {
     firebase: null,
     user: {
@@ -67,36 +72,20 @@ class UserResgister extends Component {
     });
   };
 
-  onHandleSubmit = (e) => {
+  onHandleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Imprimir objeto usuario del state", this.state.user);
-    const { user, firebase } = this.state;
-    const { email, password, name, lastname } = user;
+    const [{ sesion }, dispatch] = this.context;
+    const { firebase, user } = this.state;
 
-    firebase.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((auth) => {
-        const userDB = {
-          userId: auth.user.uid,
-          email,
-          name,
-          lastname,
-        };
-
-        firebase.db
-          .collection("Users")
-          .add(userDB)
-          .then((userAfter) => {
-            console.log("Insercion correcta! ", userAfter);
-            this.props.history.push("/");
-          })
-          .catch((error) => {
-            console.log("Error ", error);
-          });
-      })
-      .catch((error) => {
-        console.log("Error ", error);
+    let callback = await createUser(dispatch, firebase, user);
+    if (callback.status) {
+      this.props.history.push("/");
+    } else {
+      snackbarMessage(dispatch, {
+        open: true,
+        message: callback.message.message,
       });
+    }
   };
 
   render() {

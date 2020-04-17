@@ -31,7 +31,7 @@ const style = {
 };
 
 class Login extends Component {
-  static contentType = StateContext;
+  static contextType = StateContext;
 
   state = {
     firebase: null,
