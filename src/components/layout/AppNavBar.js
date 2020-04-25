@@ -58,6 +58,7 @@ class AppNavBar extends Component {
 
   render() {
     const [{ sesion }, dispatch] = this.context;
+    //console.log('appnavbasr: ',sesion);
 
     return sesion ? (
       sesion.isAuthenticated ? (

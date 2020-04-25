@@ -13,6 +13,7 @@ import { StateContext } from "../../../sesion/store";
 import { endSesion } from "../../../sesion/actions/sesionAction";
 import { RightMenu } from "../../../components/layout/bar/rightMenu";
 import userPick from "../../../logo.svg";
+import { withRouter } from "react-router-dom";
 
 const styles = (theme) => ({
   sectionDesktop: {
@@ -40,6 +41,9 @@ const styles = (theme) => ({
     paddingLeft: "15px",
     color: "#212121",
   },
+  list: {
+    width: 250,
+  }
 });
 
 class BarSesion extends Component {
@@ -50,12 +54,12 @@ class BarSesion extends Component {
     right: false,
   };
 
-  onHandleEndSesion = () => {
+  EndSesionApp = () => {
     const { firebase } = this.state;
     const [{ sesion }, dispatch] = this.context;
 
     endSesion(dispatch, firebase).then((success) => {
-      this.props.history.push("/auth/login");
+      this.props.history.push("/auth/Login");
     });
   };
 
@@ -89,14 +93,14 @@ class BarSesion extends Component {
           <div
             role="button"
             onClick={this.toggleDrawer("right", false)}
-            onkeydown={this.toggleDrawer("right", false)}
+            onKeyDown={this.toggleDrawer("right", false)}
           >
             <RightMenu
               classes={classes}
               user={user}
               userText={userText}
               userPickture={userPick}
-              onHandleEndSesion={endSesion}
+              endSesion={this.EndSesionApp}
             />
           </div>
         </Drawer>
@@ -125,4 +129,8 @@ class BarSesion extends Component {
   }
 }
 
-export default compose(consumerFirebase, withStyles(styles))(BarSesion);
+export default compose(
+  withRouter,
+  consumerFirebase,
+  withStyles(styles)
+)(BarSesion);

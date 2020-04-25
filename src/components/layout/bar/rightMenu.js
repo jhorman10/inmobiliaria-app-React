@@ -1,5 +1,11 @@
 import React from "react";
-import { List, ListItem, Link, Avatar, ListItemText } from "@material-ui/core";
+import { 
+  List, 
+  ListItem, 
+  Link, 
+  Avatar, 
+  ListItemText 
+} from "@material-ui/core";
 
 export const RightMenu = ({
   classes,
@@ -10,17 +16,23 @@ export const RightMenu = ({
 }) => (
   <div className={classes.list}>
     <List>
-      <ListItem button component={Link} to="/auth/UserRegister">
-        <Avatar classes={{ primary: classes.avatarSize }} src={userPickture} />
+      <ListItem 
+        button 
+        component={Link} 
+        to="/auth/UserRegister"
+      >
+        <Avatar 
+          src={userPickture} 
+        />
         <ListItemText
           classes={{ primary: classes.listItemText }}
           primary={userText}
         />
       </ListItem>
       <ListItem button onClick={endSesion}>
-        <listItemText
+        <ListItemText
           classes={{ primary: classes.listItemText }}
-          primary="Sign Out"
+          primary={"Sign Out"}
         />
       </ListItem>
     </List>
