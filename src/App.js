@@ -11,6 +11,7 @@ import UserRegister from "./components/security/UserResgister";
 import Login from "./components/security/Login";
 import { FirebaseContext } from "./server";
 import { useStateValue } from "./sesion/store";
+import AuthenticatedRoutes from "./components/security/AuthenticatedRoutes";
 
 function App(props) {
   let firebase = React.useContext(FirebaseContext);
@@ -51,11 +52,15 @@ function App(props) {
       <Router>
         <MuiThemeProvider theme={theme}>
           <AppNavBar />
-
           <Grid container>
             <Switch>
+              <AuthenticatedRoutes 
+                exact path="/"
+                component={ListaInmuebles}
+                FirebaseAuthenticate={firebase.auth.currentUser}
+              />
               <Route path="/auth/UserRegister" exact component={UserRegister} />
-              <Route path="/" exact component={ListaInmuebles} />
+
               <Route path="/auth/Login" exact component={Login} />
             </Switch>
           </Grid>

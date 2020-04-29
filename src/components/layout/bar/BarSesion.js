@@ -5,6 +5,8 @@ import {
   Button,
   IconButton,
   Drawer,
+  Link,
+  Avatar,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { consumerFirebase } from "../../../server";
@@ -12,6 +14,7 @@ import { compose } from "recompose";
 import { StateContext } from "../../../sesion/store";
 import { endSesion } from "../../../sesion/actions/sesionAction";
 import { RightMenu } from "../../../components/layout/bar/rightMenu";
+import { LeftMenu } from "../../../components/layout/bar/leftMenu";
 import userPick from "../../../logo.svg";
 import { withRouter } from "react-router-dom";
 
@@ -43,7 +46,7 @@ const styles = (theme) => ({
   },
   list: {
     width: 250,
-  }
+  },
 });
 
 class BarSesion extends Component {
@@ -52,6 +55,7 @@ class BarSesion extends Component {
   state = {
     firebase: null,
     right: false,
+    left: false,
   };
 
   EndSesionApp = () => {
@@ -86,6 +90,19 @@ class BarSesion extends Component {
     return (
       <div>
         <Drawer
+          open={this.state.left}
+          onClose={this.toggleDrawer("left", false)}
+          anchor="left"
+        >
+          <div
+            role="button"
+            onClick={this.toggleDrawer("left", false)}
+            onKeyDown={this.toggleDrawer("left", false)}
+          >
+            <LeftMenu classes={classes} />
+          </div>
+        </Drawer>
+        <Drawer
           open={this.state.right}
           onClose={this.toggleDrawer("right", false)}
           anchor="right"
@@ -105,15 +122,22 @@ class BarSesion extends Component {
           </div>
         </Drawer>
         <Toolbar>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={this.toggleDrawer("left", true)}>
             <i className="material-icons">menu</i>
           </IconButton>
-          <Typography variant="h6">HOME</Typography>
+          <Typography variant="h6">Welcome!</Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button variant="contained" color="inherit">
-              Login
+            <IconButton color="inherit" Component={Link} to="">
+              <i className="material-icons">mail_outline</i>
+            </IconButton>
+            <Button color="inherit" onClick={this.EndSesionApp}>
+              Log Out
             </Button>
+            <Button>
+              {userText}
+            </Button>
+            <Avatar src={userPick}></Avatar>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
