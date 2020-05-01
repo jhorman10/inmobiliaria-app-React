@@ -60,7 +60,7 @@ class BarSesion extends Component {
 
   EndSesionApp = () => {
     const { firebase } = this.state;
-    const [{ sesion }, dispatch] = this.context;
+    const [, dispatch] = this.context;
 
     endSesion(dispatch, firebase).then((success) => {
       this.props.history.push("/auth/Login");
@@ -84,9 +84,10 @@ class BarSesion extends Component {
 
   render() {
     const { classes } = this.props;
-    const [{ sesion }, dispatch] = this.context;
+    const [{ sesion }] = this.context;
     const { user } = sesion;
-    let userText = user.name + " " + user.lastname;
+    const { name, lastname, pickture } = user;
+    let userText = name + " " + lastname;
     return (
       <div>
         <Drawer
@@ -116,7 +117,7 @@ class BarSesion extends Component {
               classes={classes}
               user={user}
               userText={userText}
-              userPickture={userPick}
+              userPickture={ pickture || userPick}
               endSesion={this.EndSesionApp}
             />
           </div>
@@ -128,7 +129,7 @@ class BarSesion extends Component {
           <Typography variant="h6">Welcome!</Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton color="inherit" Component={Link} to="">
+            <IconButton color="inherit" component={Link} to="">
               <i className="material-icons">mail_outline</i>
             </IconButton>
             <Button color="inherit" onClick={this.EndSesionApp}>
@@ -137,7 +138,7 @@ class BarSesion extends Component {
             <Button>
               {userText}
             </Button>
-            <Avatar src={userPick}></Avatar>
+            <Avatar src={ pickture || userPick }></Avatar>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

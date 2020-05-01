@@ -78,7 +78,7 @@ export const endSesion = (dispatch, firebase) => {
             name: "",
             lastname: "",
             email: "",
-            picture: "",
+            pickture: "",
             id: "",
             phoneNumber: "",
           },

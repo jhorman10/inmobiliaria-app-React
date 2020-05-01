@@ -1,6 +1,7 @@
 import app from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import "firebase/storage";
 
 const config = {
   apiKey: "AIzaSyB6GoMUnLzjQ9f8gdRP6K6ovQvF4RlEzfw",
@@ -18,12 +19,21 @@ class Firebase {
     app.initializeApp(config);
     this.db = app.firestore();
     this.auth = app.auth();
+    this.storage = app.storage();
   }
 
   isInit() {
     return new Promise((resolve) => {
       this.auth.onAuthStateChanged(resolve);
     });
+  }
+
+  saveDocs = (documentName, document) => {
+    return this.storage.ref().child(documentName).put(document);
+  };
+
+  returnDoc = (documentUrl) => {
+    return this.storage.ref().child(documentUrl).getDownloadURL();
   }
 }
 export default Firebase;

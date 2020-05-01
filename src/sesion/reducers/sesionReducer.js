@@ -5,7 +5,7 @@ export const initialState = {
     email: "",
     phoneNumber: "",
     id: "",
-    picture: ""
+    pickture: ""
   },
   isAuthenticated: false
 }
