@@ -77,39 +77,39 @@ class Login extends Component {
   render() {
     const { email, password } = this.state.userState;
     return (
-      <Container maxWidth="xs">
+      <Container maxWidth='xs'>
         <div style={style.paper}>
           <Avatar style={style.avatar}>
             <LockOutLineIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component='h1' variant='h5'>
             User Name
           </Typography>
           <form style={style.form}>
             <TextField
-              variant="outlined"
-              label="E-mail"
-              name="email"
+              variant='outlined'
+              label='E-mail'
+              name='email'
               fullWidth
-              margin="normal"
+              margin='normal'
               onChange={this.onHandleChange}
               value={email}
             />
             <TextField
-              variant="outlined"
-              label="Password"
-              type="password"
-              name="password"
+              variant='outlined'
+              label='Password'
+              type='password'
+              name='password'
               fullWidth
-              margin="normal"
+              margin='normal'
               onChange={this.onHandleChange}
               value={password}
             />
             <Button
-              type="submit"
+              type='submit'
               fullWidth
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               onClick={this.login}
             >
               Send

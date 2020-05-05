@@ -12,7 +12,8 @@ import Login from "./components/security/Login";
 import { FirebaseContext } from "./server";
 import { useStateValue } from "./sesion/store";
 import AuthenticatedRoutes from "./components/security/AuthenticatedRoutes";
-import  UserProfile  from "./components/security/UserProfile";
+import UserProfile from "./components/security/UserProfile";
+import NewPropierty from "./components/views/newPropierty";
 
 function App(props) {
   let firebase = React.useContext(FirebaseContext);
@@ -36,7 +37,7 @@ function App(props) {
           "aria-describedby": "message-id",
         }}
         message={
-          <span id="message-id">
+          <span id='message-id'>
             {openSnackbar ? openSnackbar.message : ""}
           </span>
         }
@@ -55,19 +56,26 @@ function App(props) {
           <AppNavBar />
           <Grid container>
             <Switch>
-              <AuthenticatedRoutes 
-                exact path="/"
+              <AuthenticatedRoutes
+                exact
+                path='/'
                 component={ListaInmuebles}
                 FirebaseAuthenticate={firebase.auth.currentUser}
               />
-              <AuthenticatedRoutes 
-                exact path="/profile"
+              <AuthenticatedRoutes
+                exact
+                path='/profile'
                 component={UserProfile}
                 FirebaseAuthenticate={firebase.auth.currentUser}
               />
-              <Route path="/auth/UserRegister" exact component={UserRegister} />
-
-              <Route path="/auth/Login" exact component={Login} />
+              <AuthenticatedRoutes
+                exact
+                path='/new-propierty'
+                component={NewPropierty}
+                FirebaseAuthenticate={firebase.auth.currentUser}
+              />
+              <Route path='/auth/UserRegister' exact component={UserRegister} />
+              <Route path='/auth/Login' exact component={Login} />
             </Switch>
           </Grid>
         </MuiThemeProvider>

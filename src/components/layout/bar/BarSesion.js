@@ -93,10 +93,10 @@ class BarSesion extends Component {
         <Drawer
           open={this.state.left}
           onClose={this.toggleDrawer("left", false)}
-          anchor="left"
+          anchor='left'
         >
           <div
-            role="button"
+            role='button'
             onClick={this.toggleDrawer("left", false)}
             onKeyDown={this.toggleDrawer("left", false)}
           >
@@ -106,10 +106,10 @@ class BarSesion extends Component {
         <Drawer
           open={this.state.right}
           onClose={this.toggleDrawer("right", false)}
-          anchor="right"
+          anchor='right'
         >
           <div
-            role="button"
+            role='button'
             onClick={this.toggleDrawer("right", false)}
             onKeyDown={this.toggleDrawer("right", false)}
           >
@@ -117,35 +117,33 @@ class BarSesion extends Component {
               classes={classes}
               user={user}
               userText={userText}
-              userPickture={ pickture || userPick}
+              userPickture={pickture || userPick}
               endSesion={this.EndSesionApp}
             />
           </div>
         </Drawer>
         <Toolbar>
-          <IconButton color="inherit" onClick={this.toggleDrawer("left", true)}>
-            <i className="material-icons">menu</i>
+          <IconButton color='inherit' onClick={this.toggleDrawer("left", true)}>
+            <i className='material-icons'>menu</i>
           </IconButton>
-          <Typography variant="h6">Welcome!</Typography>
+          <Typography variant='h6'>Welcome!</Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton color="inherit" component={Link} to="">
-              <i className="material-icons">mail_outline</i>
+            <IconButton color='inherit' component={Link} to=''>
+              <i className='material-icons'>mail_outline</i>
             </IconButton>
-            <Button color="inherit" onClick={this.EndSesionApp}>
+            <Button color='inherit' onClick={this.EndSesionApp}>
               Log Out
             </Button>
-            <Button>
-              {userText}
-            </Button>
-            <Avatar src={ pickture || userPick }></Avatar>
+            <Button>{userText}</Button>
+            <Avatar src={pickture || userPick}></Avatar>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
-              color="inherit"
+              color='inherit'
               onClick={this.toggleDrawer("right", true)}
             >
-              <i className="material-icons">more_vert</i>
+              <i className='material-icons'>more_vert</i>
             </IconButton>
           </div>
         </Toolbar>

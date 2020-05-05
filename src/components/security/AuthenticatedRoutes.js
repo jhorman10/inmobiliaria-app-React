@@ -16,7 +16,7 @@ function AuthenticatedRoutes({
         isAuthenticated === true || FirebaseAuthenticate !== null ? (
           <Component {...props} {...rest} />
         ) : (
-          <Redirect to="/auth/login" />
+          <Redirect to='/auth/login' />
         )
       }
     />

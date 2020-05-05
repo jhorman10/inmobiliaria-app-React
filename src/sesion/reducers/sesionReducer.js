@@ -5,10 +5,10 @@ export const initialState = {
     email: "",
     phoneNumber: "",
     id: "",
-    pickture: ""
+    pickture: "",
   },
-  isAuthenticated: false
-}
+  isAuthenticated: false,
+};
 
 const sesionReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -34,5 +34,5 @@ const sesionReducer = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
 export default sesionReducer;

@@ -91,63 +91,63 @@ class UserResgister extends Component {
   render() {
     const { name, lastname, email, password } = this.state.user;
     return (
-      <Container maxWidth="md">
+      <Container maxWidth='md'>
         <div style={style.paper}>
           <Avatar style={style.avatar}>
             <LockOutLineIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component='h1' variant='h5'>
             Sign Up!
           </Typography>
           <form style={style.form}>
             <Grid container spacing={2}>
               <Grid item md={6} xs={12}>
                 <TextField
-                  name="name"
+                  name='name'
                   value={name}
                   onChange={this.onHandleWrite}
                   fullWidth
-                  label="Write your name"
+                  label='Write your name'
                 />
               </Grid>
               <Grid item md={6} xs={12}>
                 <TextField
-                  name="lastname"
+                  name='lastname'
                   value={lastname}
                   onChange={this.onHandleWrite}
                   fullWidth
-                  label="Write your lastname"
+                  label='Write your lastname'
                 />
               </Grid>
               <Grid item md={6} xs={12}>
                 <TextField
-                  type="email"
-                  name="email"
+                  type='email'
+                  name='email'
                   value={email}
                   onChange={this.onHandleWrite}
                   fullWidth
-                  label="Write your E-mail"
+                  label='Write your E-mail'
                 />
               </Grid>
               <Grid item md={6} xs={12}>
                 <TextField
-                  type="password"
-                  name="password"
+                  type='password'
+                  name='password'
                   value={password}
                   onChange={this.onHandleWrite}
                   fullWidth
-                  label="Write your password"
+                  label='Write your password'
                 />
               </Grid>
             </Grid>
-            <Grid container justify="center">
+            <Grid container justify='center'>
               <Grid item md={6} xs={12}>
                 <Button
-                  type="submit"
-                  variant="contained"
+                  type='submit'
+                  variant='contained'
                   fullWidth
-                  size="large"
-                  color="primary"
+                  size='large'
+                  color='primary'
                   onClick={this.onHandleSubmit}
                   style={style.submit}
                 >

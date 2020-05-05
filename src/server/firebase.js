@@ -34,6 +34,6 @@ class Firebase {
 
   returnDoc = (documentUrl) => {
     return this.storage.ref().child(documentUrl).getDownloadURL();
-  }
+  };
 }
 export default Firebase;

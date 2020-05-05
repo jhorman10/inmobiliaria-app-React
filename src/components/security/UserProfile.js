@@ -118,14 +118,13 @@ const UserProfile = (props) => {
               });
             });
 
-            snackbarMessage(dispatch, {
-              open: true,
-              message: "Pickture saved!",
-            });
+          snackbarMessage(dispatch, {
+            open: true,
+            message: "Pickture saved!",
+          });
         })
         .catch((error) => console.log(error));
     });
-    
   };
 
   useEffect(() => {
@@ -136,58 +135,58 @@ const UserProfile = (props) => {
     }
   }, [state.id, sesion]);
 
-  let pickIdRamdom = uuidv4(); 
+  let pickIdRamdom = uuidv4();
 
   return sesion ? (
-    <Container component="main" maxWidth="md" justify="center">
+    <Container component='main' maxWidth='md' justify='center'>
       <div style={style.paper}>
         <Avatar style={style.avatar} src={state.pickture || userPick} />
-        <Typography component="h1" variant="h6">
+        <Typography component='h1' variant='h6'>
           {state.name}
         </Typography>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Account Profile
         </Typography>
         <form style={style.form}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                name="name"
-                variant="outlined"
+                name='name'
+                variant='outlined'
                 fullWidth
-                label="Name"
+                label='Name'
                 value={state.name}
                 onChange={dataChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                name="lastname"
-                variant="outlined"
+                name='lastname'
+                variant='outlined'
                 fullWidth
-                label="Lastname"
+                label='Lastname'
                 value={state.lastname}
                 onChange={dataChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                name="email"
-                variant="outlined"
+                name='email'
+                variant='outlined'
                 fullWidth
-                type="email"
-                label="Email"
+                type='email'
+                label='Email'
                 value={state.email}
                 onChange={dataChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                name="phone"
-                variant="outlined"
+                name='phone'
+                variant='outlined'
                 fullWidth
-                type="number"
-                label="Phone Number"
+                type='number'
+                label='Phone Number'
                 value={state.phone}
                 onChange={dataChange}
               />
@@ -196,23 +195,23 @@ const UserProfile = (props) => {
               <ImageUploader
                 withIcon={false}
                 key={pickIdRamdom}
-                sigleImage={true}
-                buttonText="Select a profile image"
+                singleImage={true}
+                buttonText='Select a profile image'
                 onChange={uploadPick}
                 imgExtension={[".jpg", ".gif", ".png", ".jpeg", ""]}
-                maxFilesSize={5242880}
-                fileTypeError="is not supported file extension"
+                maxFileSize={5242880}
+                fileTypeError='is not supported file extension'
               />
             </Grid>
           </Grid>
-          <Grid container justify="center">
+          <Grid container justify='center'>
             <Grid item xs={12} md={6}>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                size="large"
-                color="primary"
+                variant='contained'
+                size='large'
+                color='primary'
                 style={style.submit}
                 onClick={saveChanges}
               >

@@ -63,7 +63,7 @@ class AppNavBar extends Component {
     return sesion ? (
       sesion.isAuthenticated ? (
         <div>
-          <Appbar position="static">
+          <Appbar position='static'>
             <BarSesion />
           </Appbar>
         </div>
