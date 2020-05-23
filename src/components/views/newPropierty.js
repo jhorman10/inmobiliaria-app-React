@@ -8,10 +8,17 @@ import {
   Typography,
   TextField,
   Button,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import { consumerFirebase } from "../../server";
 import { snackbarMessage } from "../../sesion/actions/snackbarAction";
+import { StateContext } from "../../sesion/store";
+import ImageUploader from "react-images-upload";
+import { v4 as uuidv4 } from "uuid";
 
 const style = {
   container: {
@@ -37,9 +44,14 @@ const style = {
     marginTop: 15,
     marginBottm: 10,
   },
+  photo: {
+    height: "100px",
+  },
 };
 
 class newPropierty extends Component {
+  static contextType = StateContext;
+
   state = {
     propierty: {
       addres: "",
@@ -47,7 +59,9 @@ class newPropierty extends Component {
       city: "",
       description: "",
       interior: "",
+      photo: [],
     },
+    files: [],
   };
 
   entriesToState = (e) => {
@@ -58,7 +72,18 @@ class newPropierty extends Component {
     });
   };
 
+  UploadPhotos = (docs) => {
+    Object.keys(docs).forEach(function (key) {
+      docs[key].urlTemp = URL.createObjectURL(docs[key]);
+    });
+
+    this.setState({
+      files: this.state.files.concat(docs),
+    });
+  };
+
   savePropierty = () => {
+    const [{ sesion }, dispatch] = this.context; // global state
     const { propierty } = this.state;
     const firebase = this.props.firebase;
 
@@ -69,21 +94,30 @@ class newPropierty extends Component {
         this.props.history.push("/");
         console.log("Propierty saved!");
 
-        // snackbarMessage({
-        //   open: true,
-        //   message: "Propierty saved!",
-        // });
+        snackbarMessage(dispatch, {
+          open: true,
+          message: "Propierty saved!",
+        });
       })
       .catch((error) => {
         console.log("Fail when write in the database: " + error);
-        // snackbarMessage({
-        //   open: true,
-        //   message: "Fail when write in the database: " + error,
-        // });
+        snackbarMessage(dispatch, {
+          open: true,
+          message: "Fail when write in the database: " + error,
+        });
       });
   };
 
+  deletePhoto = (photoName) => () => {
+    this.setState({
+      files: this.state.files.filter((file) => {
+        return file.name !== photoName;
+      }),
+    });
+  };
+
   render() {
+    let imageKey = uuidv4();
     const {
       addres,
       country,
@@ -150,6 +184,41 @@ class newPropierty extends Component {
                 fullWidth
                 multiline
               />
+            </Grid>
+          </Grid>
+          <Grid container justify='center'>
+            <Grid item xs={12} sm={12}>
+              <ImageUploader
+                key={imageKey}
+                withIcon={true}
+                buttonText='Select Images'
+                onChange={this.UploadPhotos}
+                imgExtension={[".jpg", ".gif", ".png", ".jpeg"]}
+                maxFileSize={5242880}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Table>
+                <TableBody>
+                  {this.state.files.map((file, i) => (
+                    <TableRow key={i}>
+                      <TableCell align='left'>
+                        <img src={file.urlTemp} style={style.photo} />
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant='contained'
+                          color='secondary'
+                          size='small'
+                          onClick={this.deletePhoto(file.name)}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </Grid>
           </Grid>
           <Grid container justify='center'>

@@ -20,6 +20,20 @@ class Firebase {
     this.db = app.firestore();
     this.auth = app.auth();
     this.storage = app.storage();
+
+    this.storage.ref().constructor.prototype.saveDocs = function (docs) {
+      let ref = this;
+      return Promise.all(
+        docs.map(function (file) {
+          return ref
+            .child(file.alias)
+            .put(file)
+            .then((snapshot) => {
+              return ref.child(file.alias).getDownloadURL();
+            });
+        })
+      );
+    };
   }
 
   isInit() {
@@ -35,5 +49,7 @@ class Firebase {
   returnDoc = (documentUrl) => {
     return this.storage.ref().child(documentUrl).getDownloadURL();
   };
+
+  saveAllDocs = (docs) => this.storage.ref().saveAllDocs(docs);
 }
 export default Firebase;
