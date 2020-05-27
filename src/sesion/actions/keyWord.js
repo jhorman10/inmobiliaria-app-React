@@ -1,7 +1,7 @@
 export const CreateKeyWord = (text) => {
   const arrayKeyWords = [];
-  const pattern = `/("[^"]+|[^"\s]/g`;
-  const arrayWords = text.match(pattern);
+  // const pattern = ;
+  const arrayWords = text.match(/("[^"]+|[^"\s]+)/g);
 
   arrayWords.forEach((word) => {
     let resumeWord = "";

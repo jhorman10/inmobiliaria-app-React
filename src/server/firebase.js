@@ -21,7 +21,7 @@ class Firebase {
     this.auth = app.auth();
     this.storage = app.storage();
 
-    this.storage.ref().constructor.prototype.saveDocs = function (docs) {
+    this.storage.ref().constructor.prototype.saveNewDocs = function (docs) {
       let ref = this;
       return Promise.all(
         docs.map(function (file) {
@@ -50,6 +50,6 @@ class Firebase {
     return this.storage.ref().child(documentUrl).getDownloadURL();
   };
 
-  saveAllDocs = (docs) => this.storage.ref().saveAllDocs(docs);
+  saveAllDocs = (docs) => this.storage.ref().saveNewDocs(docs);
 }
 export default Firebase;

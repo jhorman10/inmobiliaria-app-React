@@ -16,6 +16,7 @@ import {
 import HomeIcon from "@material-ui/icons/Home";
 import { consumerFirebase } from "../../server";
 import { snackbarMessage } from "../../sesion/actions/snackbarAction";
+import { CreateKeyWord } from "../../sesion/actions/keyWord";
 import { StateContext } from "../../sesion/store";
 import ImageUploader from "react-images-upload";
 import { v4 as uuidv4 } from "uuid";
@@ -49,11 +50,11 @@ const style = {
   },
 };
 
-class newPropierty extends Component {
+class newProperty extends Component {
   static contextType = StateContext;
 
   state = {
-    propierty: {
+    property: {
       addres: "",
       country: "",
       city: "",
@@ -65,10 +66,10 @@ class newPropierty extends Component {
   };
 
   entriesToState = (e) => {
-    let propierty = Object.assign({}, this.state.propierty);
-    propierty[e.target.name] = e.target.value;
+    let property = Object.assign({}, this.state.property);
+    property[e.target.name] = e.target.value;
     this.setState({
-      propierty,
+      property,
     });
   };
 
@@ -82,30 +83,52 @@ class newPropierty extends Component {
     });
   };
 
-  savePropierty = () => {
+  saveProperty = () => {
     const [{ sesion }, dispatch] = this.context; // global state
-    const { propierty } = this.state;
+    const { property, files } = this.state;
     const firebase = this.props.firebase;
 
-    firebase.db
-      .collection("Propierties")
-      .add(propierty)
-      .then((success) => {
-        this.props.history.push("/");
-        console.log("Propierty saved!");
+    Object.keys(files).forEach(function (key) {
+      let dinamicValue = Math.floor(new Date().getTime() / 1000);
+      let name = files[key].name;
+      let extension = name.split(".").pop();
+      files[key].alias = (
+        name.split(".")[0] +
+        "_" +
+        dinamicValue +
+        "_" +
+        extension
+      )
+        .replace(/\s/g, "_")
+        .toLowerCase();
+    });
 
-        snackbarMessage(dispatch, {
-          open: true,
-          message: "Propierty saved!",
+    const searchText =
+      property.addres + " " + property.city + " " + property.country;
+
+    let keywords = CreateKeyWord(searchText);
+
+    this.props.firebase.saveAllDocs(files).then((arrayURL) => {
+      property.photo = arrayURL;
+      property.keywords = keywords;
+
+      firebase.db
+        .collection("Properties")
+        .add(property)
+        .then((success) => {
+          this.props.history.push("/");
+          snackbarMessage(dispatch, {
+            open: true,
+            message: "property saved!",
+          });
+        })
+        .catch((error) => {
+          snackbarMessage(dispatch, {
+            open: true,
+            message: "Fail when write in the database: " + error,
+          });
         });
-      })
-      .catch((error) => {
-        console.log("Fail when write in the database: " + error);
-        snackbarMessage(dispatch, {
-          open: true,
-          message: "Fail when write in the database: " + error,
-        });
-      });
+    });
   };
 
   deletePhoto = (photoName) => () => {
@@ -124,7 +147,7 @@ class newPropierty extends Component {
       city,
       description,
       interior,
-    } = this.state.propierty;
+    } = this.state.property;
     return (
       <Container style={style.container}>
         <Paper style={style.paper}>
@@ -135,7 +158,7 @@ class newPropierty extends Component {
                   <HomeIcon style={style.homeIcon} />
                   Home
                 </Link>
-                <Typography color='textPrimary'>New Propierty</Typography>
+                <Typography color='textPrimary'>New Property</Typography>
               </Breadcrumbs>
             </Grid>
             <Grid item xs={12} md={12}>
@@ -143,7 +166,7 @@ class newPropierty extends Component {
                 name='addres'
                 onChange={this.entriesToState}
                 value={addres}
-                label='Propierty addres'
+                label='property addres'
                 fullWidth
               />
             </Grid>
@@ -230,7 +253,7 @@ class newPropierty extends Component {
                 size='large'
                 color='primary'
                 style={style.submit}
-                onClick={this.savePropierty}
+                onClick={this.saveProperty}
               >
                 !Save!
               </Button>
@@ -241,4 +264,4 @@ class newPropierty extends Component {
     );
   }
 }
-export default consumerFirebase(newPropierty);
+export default consumerFirebase(newProperty);
