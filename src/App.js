@@ -14,6 +14,8 @@ import { useStateValue } from "./sesion/store";
 import AuthenticatedRoutes from "./components/security/AuthenticatedRoutes";
 import UserProfile from "./components/security/UserProfile";
 import NewPropierty from "./components/views/newPropierty";
+import EditPropierty from "./components/views/editProperty";
+
 
 function App(props) {
   let firebase = React.useContext(FirebaseContext);
@@ -72,6 +74,12 @@ function App(props) {
                 exact
                 path='/new-propierty'
                 component={NewPropierty}
+                FirebaseAuthenticate={firebase.auth.currentUser}
+              />
+              <AuthenticatedRoutes
+                exact
+                path='/edit-propierty/:id'
+                component={EditPropierty}
                 FirebaseAuthenticate={firebase.auth.currentUser}
               />
               <Route path='/auth/UserRegister' exact component={UserRegister} />

@@ -111,6 +111,27 @@ class ListaInmuebles extends Component {
     this.setState({ properties: arrayProperties });
   }
 
+  deleteProperty = (id) => {
+    this.props.firebase.db
+      .collection("Properties")
+      .doc(id)
+      .delete()
+      .then((success) => {
+        this.deletepropertyFromList(id);
+      });
+  };
+
+  deletepropertyFromList = (id) => {
+    const propertiesList = this.state.properties.filter(
+      (property) => property.id !== id
+    );
+    this.setState({ properties: propertiesList });
+  };
+
+  editProperty = (id) => {
+    this.props.history.push("/edit-propierty/" + id);
+  };
+
   render() {
     const { searchText, properties } = this.state;
     return (
@@ -159,11 +180,19 @@ class ListaInmuebles extends Component {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button color='primary' size='small'>
-                        Editar
+                      <Button
+                        color='primary'
+                        size='small'
+                        onClick={() => this.editProperty(card.id)}
+                      >
+                        Edit
                       </Button>
-                      <Button color='primary' size='small'>
-                        Eliminar
+                      <Button
+                        color='primary'
+                        size='small'
+                        onClick={() => this.deleteProperty(card.id)}
+                      >
+                        Delete
                       </Button>
                     </CardActions>
                   </Card>

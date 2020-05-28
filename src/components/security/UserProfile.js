@@ -127,11 +127,15 @@ const UserProfile = (props) => {
     });
   };
 
+  const validateForm = (sesion) => {
+    if (sesion) {
+      setState(sesion.user);
+    }
+  };
+
   useEffect(() => {
     if (state.id === "") {
-      if (sesion) {
-        setState(sesion.user);
-      }
+      validateForm(sesion);
     }
   }, [state.id, sesion]);
 
