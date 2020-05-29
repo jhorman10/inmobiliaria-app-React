@@ -51,5 +51,7 @@ class Firebase {
   };
 
   saveAllDocs = (docs) => this.storage.ref().saveNewDocs(docs);
+
+  deleteDocs = (doc) => this.storage.ref().child(doc).delete();
 }
 export default Firebase;
